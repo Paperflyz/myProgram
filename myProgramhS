@@ -1,0 +1,106 @@
+#include <iostream>
+#include <vector>
+#include <string>
+
+
+using namespace std;
+
+class Postcard       
+{
+public:
+
+    Postcard(){}
+
+    Postcard(int, string);      // Konstruktor Deklaration
+
+    int addPostage(int cent);
+    void send();
+    string firstNameInsert();
+    int newPostcard(int answer);
+
+private:
+
+    int postage;
+    string firstName;
+    string genericText = ("The weather is great, many hugs, ");
+
+};
+
+
+Postcard::Postcard(int cent, string fN)         //Definition Konstruktor
+{
+    firstName = fN;
+    postage = cent;
+
+}
+
+
+int Postcard::addPostage(int cent){
+
+    cout << "\nPlease add the postage for the receiver " << firstName << " in cents"
+            "\nNote that you have to insert at least 80 cent Postage!"
+            "\nYour insert :: ";
+    cin >> postage;
+    postage+=cent;
+    return postage;
+}
+
+string Postcard::firstNameInsert()
+{
+    cout << "Hello, what is the receivers first name? \n";
+    cin >> firstName;
+    return firstName;
+
+}
+
+void Postcard::send()
+{
+
+    while (postage < 80){
+        if (postage < 80)
+        {
+            cout << "\nYour postage is " << postage << " please add more postage! \n";
+
+            Postcard::addPostage(postage);
+        }
+
+    }
+    if (postage >= 80){
+
+        cout << "\n\n" << genericText << firstName << " || Payed: " << postage << "\n";
+    }
+
+}
+
+int Postcard::newPostcard(int answer)                       //Methode zur nachfrage ob weitere Postkarten versendet werden sollen
+{
+    cout << "\nDo you want to send another Postcard?"
+            "\nType 0 for |YES|"
+            "\nType 1 for |NO| "
+            "\nYour insert :: ";
+    cin >> answer;
+    return answer;
+}
+
+
+int main(){
+
+    int answer = 0;
+    int sizeCounter = 1;
+    vector < Postcard > myPostcard ( 1 );
+
+    for(int classCounter = 0; answer != 1; ++classCounter)
+    {
+        myPostcard.resize(sizeCounter);
+
+        myPostcard[classCounter].firstNameInsert();
+        myPostcard[classCounter].addPostage(0);
+        myPostcard[classCounter].send();
+        answer = myPostcard[classCounter].newPostcard(answer);
+
+        sizeCounter++;
+    }
+
+
+    return 0;
+}
